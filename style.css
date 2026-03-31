@@ -1,18 +1,240 @@
-body,
-html {
-  width: 100vw;
-  height: 100vh;
- 
+html,
+body {
+  min-height: 100%;
 }
 
 body {
-  display: flex;
-  justify-content: center;
-  align-content: center;
-  flex-wrap: wrap;
   margin: 0;
-  background-image: url(Images/backgmac.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
+  color: #e6f4ff;
+  font-family: Inter, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(72, 112, 255, 0.22), transparent 36%),
+    linear-gradient(180deg, #09111f 0%, #070b15 50%, #03060b 100%);
+}
 
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background:
+    linear-gradient(rgba(12, 22, 44, 0.12), rgba(12, 22, 44, 0.12)),
+    url("Images/bg.jpg") center top / cover no-repeat;
+  opacity: 0.12;
+  pointer-events: none;
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 100% 4px;
+  opacity: 0.16;
+  pointer-events: none;
+}
+
+.app-shell {
+  position: relative;
+  z-index: 1;
+  width: min(1180px, calc(100vw - 32px));
+  margin: 0 auto;
+  padding: 32px 0 40px;
+}
+
+.hero-panel {
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  color: #55c7ff;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.82rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.hero-panel h1 {
+  margin: 0;
+  font-family: "Arial Black", Impact, "Trebuchet MS", Arial, sans-serif;
+  font-size: clamp(2.5rem, 7vw, 4.6rem);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: 0 0 18px rgba(85, 199, 255, 0.28);
+}
+
+.subtitle {
+  width: min(720px, 100%);
+  margin: 10px 0 0;
+  color: #b9d3e6;
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+.meta-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.meta-strip span {
+  padding: 8px 12px;
+  border: 1px solid rgba(102, 174, 255, 0.18);
+  border-radius: 999px;
+  background: rgba(9, 16, 31, 0.62);
+  color: #c5dcef;
+  font-size: 0.9rem;
+}
+
+.game-panel {
+  padding: 18px;
+  border: 1px solid rgba(102, 174, 255, 0.4);
+  border-radius: 18px;
+  background: linear-gradient(180deg, rgba(11, 19, 38, 0.92), rgba(6, 10, 20, 0.96));
+  box-shadow:
+    0 16px 40px rgba(0, 0, 0, 0.42),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
+    0 0 28px rgba(85, 199, 255, 0.08);
+}
+
+.canvas-frame {
+  overflow: hidden;
+  border: 1px solid rgba(111, 195, 255, 0.24);
+  border-radius: 14px;
+  background: #02050a;
+  box-shadow:
+    inset 0 0 24px rgba(0, 0, 0, 0.52),
+    0 0 0 1px rgba(255, 255, 255, 0.03);
+}
+
+#game-canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 11 / 6;
+  image-rendering: auto;
+}
+
+.info-strip,
+.actions-strip,
+.controls-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+  color: #b9d3e6;
+  font-size: 0.95rem;
+}
+
+.info-strip {
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(116, 164, 214, 0.18);
+}
+
+.controls-strip {
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.84rem;
+  color: #9eb9ce;
+}
+
+.actions-strip {
+  margin-top: 14px;
+}
+
+.hud-button {
+  appearance: none;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(102, 174, 255, 0.3);
+  border-radius: 10px;
+  padding: 14px 16px 13px;
+  background:
+    linear-gradient(180deg, rgba(38, 63, 112, 0.35), rgba(10, 18, 34, 0) 42%),
+    linear-gradient(180deg, rgba(20, 33, 63, 0.95), rgba(8, 14, 28, 0.98));
+  color: #e6f4ff;
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  font-size: 0.88rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease,
+    opacity 120ms ease;
+}
+
+.hud-button::before {
+  content: "SYS";
+  position: absolute;
+  top: 7px;
+  right: 10px;
+  color: rgba(85, 199, 255, 0.54);
+  font-size: 0.62rem;
+  letter-spacing: 0.18em;
+}
+
+.hud-button::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(85, 199, 255, 0.88), rgba(111, 92, 255, 0.45));
+}
+
+.actions-strip button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  border-color: rgba(85, 199, 255, 0.52);
+  box-shadow: 0 0 14px rgba(85, 199, 255, 0.12);
+}
+
+.actions-strip button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.actions-strip button.is-active {
+  border-color: rgba(85, 199, 255, 0.72);
+  box-shadow: 0 0 18px rgba(85, 199, 255, 0.16);
+}
+
+.actions-strip button.is-low::after {
+  background: linear-gradient(90deg, rgba(255, 203, 92, 0.9), rgba(85, 199, 255, 0.45));
+}
+
+.actions-strip button.is-muted::after {
+  background: linear-gradient(90deg, rgba(255, 110, 130, 0.92), rgba(118, 30, 46, 0.55));
+}
+
+.info-strip p,
+.actions-strip button,
+.controls-strip span {
+  margin: 0;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.info-strip p,
+.controls-strip span {
+  padding: 10px 12px;
+}
+
+@media (max-width: 720px) {
+  .app-shell {
+    width: min(100vw - 18px, 1180px);
+    padding-top: 20px;
+  }
+
+  .game-panel {
+    padding: 12px;
+  }
+
+  .info-strip,
+  .actions-strip,
+  .controls-strip {
+    grid-template-columns: 1fr;
+  }
 }
